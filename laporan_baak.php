@@ -11,34 +11,26 @@ if($_SESSION['level']!="Admin"){
 ?>
 <?php 
 include_once ('../database/koneksi.php');
-	include('../function.php');
-	
-	$query = 'SELECT * FROM form_peminjaman';
-	$result_set = $conn->query($query);
-	if(isset($_GET['del_pesanan'])){
-		deletePesanan($_GET['del_pesanan']);
-		
-	}
-	if(isset($_GET['acc'])){
-		accPesanan($_GET['acc']);
-	} ?>
-
+  include('../function.php');
+  
+  $query = 'SELECT * FROM form_peminjaman';
+?>
 
 <!DOCTYPE html>
 <html>
 <head>
 <link rel='stylesheet' href='../css/css.css'>
+
 <link rel='stylesheet' href='../css/css2.css'>
 <script src='../jquery/jquery-2.1.4.min.js' ></script>
 <script src='../jquery/js.js'> </script>
-<link rel='stylesheet' href='../css/css2.css'>
 <link rel='stylesheet' href='../bootstrap-3.3.7-dist/css/bootstrap.css'>
 <link rel='stylesheet' href='../bootstrap-3.3.7-dist/js/bootstrap.min.js'>
 <link rel='stylesheet' href='../bootstrap-3.3.7-dist/css/bootstrap.min.css'>
 <style>
 td{
-	text-align: left;
-  	padding: 3px;
+  text-align: left;
+    padding: 3px;
 }
 th {
   
@@ -47,9 +39,9 @@ th {
   background-color: orange;
 }
 #gambar{
-	height: 50px; 
-	width: 50px;
-	margin-bottom: -100px;
+  height: 50px; 
+  width: 50px;
+  margin-bottom: -100px;
 }
 tr:nth-child(even) {
   background-color: #dddddd;
@@ -59,13 +51,17 @@ p{
 }
 
 </style>
-<title>Penyetujuan Terhadap Request Booking Class</title>
+
+
+<title>Laporan Peminjaman </title>
+  <div class="header">
+
+
 </head>
 
 
-<body style="background-color:lightblue;"> 
-
-	<nav class="navbar navbar-default navbar-fixed-top">
+<body style="background-color: lightblue;">
+<nav class="navbar navbar-default navbar-fixed-top">
   
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -83,38 +79,32 @@ p{
     </div>
 	
 	</nav>
-
-	<div class="container-fluid text-center">
-	<div class="panel panel-info">
+	<div class="container-fluid">
+<br/><br/>
+		<div class="panel panel-info">
 			<div class="panel-heading">
-			<center><h2>Daftar Request Booking Kelas Institut Teknologi Del</h2></center>
-			</div>
-			<div class="panel-body">
-					
-		
+				 
+<center><h4>History Booking Class Mahasiswa</h4></center>
+<button = style="margin-bottom:10px" onClick="print_data_bulan()">Lihat Laporan Per - Bulan</button> 
+  <button = style="margin-bottom:10px" onClick="print_data_tahun()">Lihat Laporan Per - Tahun</button> 
 
-<?php 
-//$daftar_pesanan = getAllHelp();
-	//					if ($daftar_pesanan==NULL){
-		//					echo "<b align='center'>No data</b>";
+</b><br><br>
+<table id="page" width="1500px" class="table table-hover table-striped">
+ <tr>
 
-			//			}else{
-							?>
-							<div class="table-responsive">
-		<table id="page" class="table table-bordered table-striped table-hover" >
-  <thead>
-  <tr>
     <th>No</th>
-	<th> Nama </th>
+  <th>Nama Pengguna</th>
     <th>Tanggal Peminjaman</th>
     <th>Lokasi</th>
-    <th>Rencana Mulai</th>
-    <th>Rencana Berakhir</th>
+    <th>Waktu  Mulai</th>
+    <th>Waktu Berakhir</th>
     <th>Keperluan</th>
     <th>Status</th>
-	</tr> </thead> <tbody>
+    <th>Alasan</th>
+ 
+ </tr> </thead> <tbody>
 <?php 
- $trans = getDataUserFormPeminjaman();
+  $trans = getDataUserFormPeminjaman();
   while($data = mysqli_fetch_array($trans, MYSQLI_ASSOC)) {
     echo '<tr><td>'.$data['idform'].'</td>';
     $dataUser = getDataUser2($data['id']);
@@ -122,33 +112,40 @@ p{
       echo '<td>'. $item['nama']. '</td>';
       
     }
-   // echo '<td>'.$data['id'].'</td>';
+  // echo '<td>'.$data['id'].'</td>';
   echo '<td>'.$data['tanggal_peminjaman'].'</td>';
   echo '<td>'.$data['nama_ruangan'].'</td>';
   echo '<td>'.$data['rencana_awal'].'</td>';
-  echo '<td>'.$data['rencana_akhir'].'</td>';  
+  echo '<td>'.$data['rencana_akhir'].'</td>'; 
+
   echo '<td>'.$data['keperluan'].'</td>';     
-  if($data['STATUS'] == 'Pending'){ 
-  echo('
-  <td>
-
-    <button><a href="setujui.php?acc='. $data['idform'] .'">Setujui</a></button> 
-    <button><a href="setujui.php?del_pesanan='.$data['idform'].'">Tolak</button>
-    
-  </td>');
-  }
-  else{echo '<td>'.$data['STATUS'].'</td>';}   
-  }
+  echo '<td>'.$data['STATUS'].'</td>';
+  echo '<td>'.$data['alasan'].'</td>';   
   
+
             ?>
-            <?php echo '</tr>'; ?>
+            <?php echo '</tr>'; }?>
 
-</table> </div> </div>
 
-						<?php  ?>
+</table>
+<br/><br/>
+</div>			
+		</div>
+		<br/>
+	</div>
+   <script>
+  function print_data_bulan() {
+      window.open("laporan_perbulan.php");
+}
+  function print_data_tahun() {
+window.open("laporan_pertahun.php");
+ } 
+</script>
+<footer style="margin-bottom:-100px;">
     <hr style=" margin-top: 500px;">
-  <center><h5>Created by Group PSW2-1819-013</h5></center>
+  <center><h5>Created by PSW2-1819-013</h5></center>
+</footer>
+  </body>
+</html>
 
-  </footer>
-	</body>
-	</html>
+
