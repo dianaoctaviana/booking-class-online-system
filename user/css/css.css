@@ -1,0 +1,24 @@
+
+.tengah{
+position: absolute;
+margin-top: -100px;
+margin-left: -200px;
+left: 50%;top: 50%;
+width: 400px;
+height: 250px;
+background-color: orange;
+}
+
+.halaman th
+{
+	color: black;
+	background-color: chocolate;
+}
+
+#judul{
+	color: green;
+}
+#kanan{
+	margin-left: 1200px;
+	margin-top: 10px;
+}
